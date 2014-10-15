@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="CorsairKeyboardVisualizer" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Windows">
+				<Option output="bin/Windows/FanBusAudio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Windows/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add directory="C:/libraries/openal-soft-1.14-bin/include" />
+					<Add directory="C:/libraries/SDL-1.2.15/include" />
+					<Add directory="C:/libraries/SDL_gfx-2.0.24/include" />
+					<Add directory="C:/libraries/libusb-win32-bin-1.2.6.0/include" />
+				</Compiler>
+				<Linker>
+					<Add library="C:\libraries\openal-soft-1.14-bin\lib\Win32\libOpenAL32.dll.a" />
+					<Add library="mingw32" />
+					<Add library="gdi32" />
+					<Add library="winmm" />
+					<Add library="C:\libraries\SDL-1.2.15\lib\libSDLmain.a" />
+					<Add library="C:\libraries\SDL-1.2.15\lib\libSDL.dll.a" />
+					<Add library="C:\libraries\SDL_gfx-2.0.24\lib\libSDL_gfx.dll.a" />
+					<Add library="C:\libraries\libusb-win32-bin-1.2.6.0\lib\gcc\libusb.a" />
+					<Add library="user32" />
+					<Add library="dxguid" />
+					<Add library="SDL" />
+					<Add library="SDLmain" />
+					<Add directory="C:/libraries/SDL-1.2.15/lib" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option output="bin/Linux/FanBusAudio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Linux/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="openal" />
+					<Add library="SDL" />
+					<Add library="SDL_gfx" />
+					<Add library="usb" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="$(#sdl.include)" />
+		</Compiler>
+		<Unit filename="CorsairKeyboardVisualizer.cpp" />
+		<Unit filename="chuck_fft.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="chuck_fft.h" />
+		<Unit filename="fanbus.cpp" />
+		<Unit filename="fanbus.h" />
+		<Unit filename="serial_port.cpp" />
+		<Unit filename="serial_port.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

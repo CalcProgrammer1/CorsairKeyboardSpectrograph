@@ -1,0 +1,591 @@
+# depslib dependency file v1.0
+1345311700 source:z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345952647 
+
+1345311711 z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\chuck_fft.h
+
+1358832104 source:z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\fanbus.cpp
+	"fanbus.h"
+
+1344726237 z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\fanbus.h
+	"serial_port.h"
+
+1345337556 rt.h"
+
+1358832969 z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1189868550 source:z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+	<SDL.h>
+
+1189868550 >
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 e.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1326110987 g_minimal.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_platform.h
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_dreamcast.h
+	"SDL_platform.h"
+
+1326110994 orm.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_macos.h
+	"SDL_platform.h"
+	<MacTypes.h>
+
+1345335283 h>
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_macosx.h
+	"SDL_platform.h"
+	<AvailabilityMacros.h>
+
+1345335283 ityMacros.h>
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_symbian.h
+	"SDL_platform.h"
+	<stdarg.h>
+	<stddef.h>
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_win32.h
+	"SDL_platform.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_os2.h
+	"SDL_platform.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_config_minimal.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\begin_code.h
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\close_code.h
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_keysym.h
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1325738639 .h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1345331683 c:\program files (x86)\codeblocks\devpaks\include\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1358832961 source:z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\serial_port.cpp
+	"serial_port.h"
+
+1360195853 source:z:\programming\fanbus fan controller\fanbus-fan-controller\pc applications\fanbusaudio\fanbusaudio.cpp
+	<AL/al.h>
+	<AL/alc.h>
+	<SDL/SDL.h>
+	<SDL/SDL_gfxPrimitives.h>
+	"chuck_fft.h"
+	<stdio.h>
+	"serial_port.h"
+	"fanbus.h"
+	<math.h>
+
+1345335872 c:\openal-soft-1.14-bin\include\al\al.h
+
+1345335872 c:\openal-soft-1.14-bin\include\al\alc.h
+
+1345605572 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/FanBusAudio.cpp
+	<AL/al.h>
+	<AL/alc.h>
+	<SDL/SDL.h>
+	<SDL/SDL_gfxPrimitives.h>
+	"chuck_fft.h"
+	<stdio.h>
+	"serial_port.h"
+	"fanbus.h"
+	<math.h>
+
+1345315311 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/chuck_fft.h
+
+1345337612 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1344729837 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/fanbus.h
+	"serial_port.h"
+	"serial_port.h"
+
+1345315300 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345952647 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/fanbus.cpp
+	"fanbus.h"
+	"fanbus.h"
+
+1345337556 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/serial_port.cpp
+	"serial_port.h"
+	"serial_port.h"
+
+1345332272 c:\libraries\openal-soft-1.14-bin\include\al\al.h
+
+1345332272 c:\libraries\openal-soft-1.14-bin\include\al\alc.h
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1326110987 c:\libraries\sdl-1.2.15\include\sdl\sdl_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_platform.h
+
+1326110994 c:\libraries\sdl-1.2.15\include\sdl\sdl_config_win32.h
+	"SDL_platform.h"
+
+1326111000 c:\libraries\sdl-1.2.15\include\sdl\begin_code.h
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\close_code.h
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_keysym.h
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325738639 c:\libraries\sdl-1.2.15\include\sdl\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1336970605 c:\libraries\sdl_gfx-2.0.24\include\sdl\sdl_gfxprimitives.h
+	<math.h>
+	"SDL.h"
+
+1345315300 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345315311 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/chuck_fft.h
+
+1358832104 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/fanbus.cpp
+	"fanbus.h"
+
+1344729837 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/fanbus.h
+	"serial_port.h"
+
+1358832969 /media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1360196167 source:/media/RAID5/Programming/FanBus Fan Controller/FanBus-Fan-Controller/PC Applications/FanBusAudio/serial_port.cpp
+	"serial_port.h"
+
+1345315300 source:/media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345315311 /media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/chuck_fft.h
+
+1358832104 source:/media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/fanbus.cpp
+	"fanbus.h"
+
+1344729837 /media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/fanbus.h
+	"serial_port.h"
+
+1358832969 /media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1412989098 source:/media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/FanBusAudio.cpp
+	<AL/al.h>
+	<AL/alc.h>
+	<SDL/SDL.h>
+	<SDL/SDL_gfxPrimitives.h>
+	"chuck_fft.h"
+	<stdio.h>
+	"serial_port.h"
+	"fanbus.h"
+	<math.h>
+
+1360196167 source:/media/RAID5/Programming/FanBus Fan Controller/PC Applications/FanBusAudio - Copy/serial_port.cpp
+	"serial_port.h"
+

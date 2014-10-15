@@ -1,0 +1,27 @@
+# depslib dependency file v1.0
+1345315300 source:z:\programming\corsairkeyboardvisualizer\chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345315311 z:\programming\corsairkeyboardvisualizer\chuck_fft.h
+
+1358835704 source:z:\programming\corsairkeyboardvisualizer\fanbus.cpp
+	"fanbus.h"
+
+1344729837 z:\programming\corsairkeyboardvisualizer\fanbus.h
+	"serial_port.h"
+
+1358836569 z:\programming\corsairkeyboardvisualizer\serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1412990859 source:z:\programming\corsairkeyboardvisualizer\serial_port.cpp
+	"serial_port.h"
+
