@@ -8,6 +8,19 @@
 #include <SDL/SDL_gfxPrimitives.h>
 #include "chuck_fft.h"
 
+#ifdef WIN32
+#define USE_WINDOWS_USB
+#ifdef USE_WINDOWS_USB
+#include <sstream>
+#include <wchar.h>
+#include <string.h>
+#include <Windows.h>
+#include <hidsdi.h>
+#include <setupapi.h>
+#include <cfgmgr32.h>
+#endif // USE_WINDOWS_USB
+#endif
+
 #define FALSE 0
 
 //#define ENABLE_FANBUS
@@ -23,13 +36,24 @@ static int grn_leds[] = { 0x11, 0x14, 0x17, 0x1A };
 static int blu_leds[] = { 0x12, 0x15, 0x18, 0x1B };
 #endif // ENABLE_FANBUS
 
-static struct usb_device *find_device(uint16_t vendor, uint16_t product);
+#ifdef USE_WINDOWS_USB
+HANDLE				dev;
+#else
+static struct usb_device *dev;
+struct usb_dev_handle *handle;
+#endif
 
 static int init_keyboard();
 
 static void update_keyboard();
 
 static void set_led( int x, int y, int r, int g, int b );
+
+#ifdef USE_WINDOWS_USB
+HANDLE GetDeviceHandle(unsigned int uiVID, unsigned int uiPID, unsigned int uiMI);
+#else
+static struct usb_device *find_device(uint16_t vendor, uint16_t product);
+#endif
 
 char red_val[144];
 char grn_val[144];
@@ -60,9 +84,6 @@ float size_map[] = {
 unsigned char led_matrix[7][92];
 
 unsigned char led_waveform[7][92];
-
-struct usb_device *dev;
-struct usb_dev_handle *handle;
 
 float normalizeFFT(float fftin)
 {
@@ -135,7 +156,7 @@ int main(int argc, char *argv[])
             }
 
             rfft(fft, 256, 1);
-            //apply_window(fft, win, 256);
+            apply_window(fft, win, 256);
             boxRGBA(wavs, 0, 0, 255, 255, 0, 0, 0, 255);
 
             for(int i = 0; i < 256; i+=2)
@@ -167,7 +188,7 @@ int main(int argc, char *argv[])
             {
                 return 0;
             }
-            SDL_Delay(20);
+            SDL_Delay(15);
 
 #ifdef ENABLE_FANBUS
             for(int i = 0; i < 4; i++)
@@ -241,7 +262,21 @@ static int init_keyboard()
 
     printf("Searching for Corsair K70 RGB keyboard...\n");
 
+#ifdef USE_WINDOWS_USB
+    dev = GetDeviceHandle(0x1B1C, 0x1B13, 0x3);
+#else
     dev = find_device(0x1B1C, 0x1B13);
+#endif
+
+    if(dev == NULL)
+    {
+        printf("Searching for Corsair K95 RGB keyboard...\n");
+#ifdef USE_WINDOWS_USB
+        dev = GetDeviceHandle(0x1B1C, 0x1B11, 0x3);
+#else
+        dev = find_device(0x1B1C, 0x1B11);
+#endif
+    }
 
     if(dev == NULL)
     {
@@ -253,6 +288,7 @@ static int init_keyboard()
         printf("Corsair K70 RGB keyboard detected successfully :)\n");
     }
 
+#ifndef USE_WINDOWS_USB
     handle = usb_open(dev);
 
     if(handle == NULL)
@@ -265,9 +301,11 @@ static int init_keyboard()
         printf("USB device handle opened successfully :)\n");
     }
 
+#ifndef WIN32
     status = usb_claim_interface(handle, 3);
 
-//    status = usb_detach_kernel_driver_np(handle, 3);
+
+    status = usb_detach_kernel_driver_np(handle, 3);
 
     if(status == 0)
     {
@@ -276,8 +314,10 @@ static int init_keyboard()
     else
     {
         printf("USB interface claim failed with error %d :(\n", status);
-//        return 1;
+        return 1;
     }
+#endif
+#endif
 
     // Construct XY lookup table
     unsigned char *keys = position_map;
@@ -318,6 +358,17 @@ static int init_keyboard()
     return 0;
 }
 
+#ifdef USE_WINDOWS_USB
+static void send_usb_msg(char * data_pkt)
+{
+    char usb_pkt[65];
+    for(int i = 1; i < 65; i++)
+    {
+        usb_pkt[i] = data_pkt[i-1];
+    }
+    HidD_SetFeature(dev, usb_pkt, 65);
+}
+#endif
 
 static void update_keyboard()
 {
@@ -345,9 +396,9 @@ static void update_keyboard()
     data_pkt[3][1] = 0x04;
     data_pkt[3][2] = 0x24;
 
-        data_pkt[4][0] = 0x07;
-        data_pkt[4][1] = 0x27;
-        data_pkt[4][4] = 0xD8;
+    data_pkt[4][0] = 0x07;
+    data_pkt[4][1] = 0x27;
+    data_pkt[4][4] = 0xD8;
 
     for(int i = 0; i < 60; i++)
     {
@@ -379,14 +430,22 @@ static void update_keyboard()
         data_pkt[3][i+4] = blu_val[i*2+73] << 4 | blu_val[i*2+72];
     }
 
+#ifdef USE_WINDOWS_USB
+    send_usb_msg(data_pkt[0]);
+    send_usb_msg(data_pkt[1]);
+    send_usb_msg(data_pkt[2]);
+    send_usb_msg(data_pkt[3]);
+    send_usb_msg(data_pkt[4]);
+#else
     usb_control_msg(handle, 0x21, 0x09, 0x0300, 0x03, data_pkt[0], 64, 1000);
     usb_control_msg(handle, 0x21, 0x09, 0x0300, 0x03, data_pkt[1], 64, 1000);
     usb_control_msg(handle, 0x21, 0x09, 0x0300, 0x03, data_pkt[2], 64, 1000);
     usb_control_msg(handle, 0x21, 0x09, 0x0300, 0x03, data_pkt[3], 64, 1000);
     usb_control_msg(handle, 0x21, 0x09, 0x0300, 0x03, data_pkt[4], 64, 1000);
+#endif
 }
 
-
+#ifndef USE_WINDOWS_USB
 static struct usb_device *find_device(uint16_t vendor, uint16_t product)
 {
     struct usb_bus *bus;
@@ -412,3 +471,102 @@ static struct usb_device *find_device(uint16_t vendor, uint16_t product)
 
     return NULL;
 }
+#endif
+
+#ifdef USE_WINDOWS_USB
+//==================================================================================================
+// Code by http://www.reddit.com/user/chrisgzy
+//==================================================================================================
+bool IsMatchingDevice(wchar_t *pDeviceID, unsigned int uiVID, unsigned int uiPID, unsigned int uiMI)
+{
+	unsigned int uiLocalVID = 0, uiLocalPID = 0, uiLocalMI = 0;
+
+	LPWSTR pszNextToken = 0;
+	LPWSTR pszToken = wcstok(pDeviceID, L"\\#&");
+	while (pszToken)
+	{
+		std::wstring tokenStr(pszToken);
+		if (tokenStr.find(L"VID_", 0, 4) != std::wstring::npos)
+		{
+			std::wistringstream iss(tokenStr.substr(4));
+			iss >> std::hex >> uiLocalVID;
+		}
+		else if (tokenStr.find(L"PID_", 0, 4) != std::wstring::npos)
+		{
+			std::wistringstream iss(tokenStr.substr(4));
+			iss >> std::hex >> uiLocalPID;
+		}
+		else if (tokenStr.find(L"MI_", 0, 3) != std::wstring::npos)
+		{
+			std::wistringstream iss(tokenStr.substr(3));
+			iss >> std::hex >> uiLocalMI;
+		}
+
+		pszToken = wcstok(0, L"\\#&");
+	}
+
+	if (uiVID != uiLocalVID || uiPID != uiLocalPID || uiMI != uiLocalMI)
+		return false;
+
+	return true;
+}
+
+
+//==================================================================================================
+// Code by http://www.reddit.com/user/chrisgzy
+//==================================================================================================
+HANDLE GetDeviceHandle(unsigned int uiVID, unsigned int uiPID, unsigned int uiMI)
+{
+	const GUID GUID_DEVINTERFACE_HID = { 0x4D1E55B2L, 0xF16F, 0x11CF, 0x88, 0xCB, 0x00, 0x11, 0x11, 0x00, 0x00, 0x30 };
+	HDEVINFO hDevInfo = SetupDiGetClassDevs(&GUID_DEVINTERFACE_HID, 0, 0, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
+	if (hDevInfo == INVALID_HANDLE_VALUE)
+		return 0;
+
+	HANDLE hReturn = 0;
+
+	SP_DEVINFO_DATA deviceData = { 0 };
+	deviceData.cbSize = sizeof(SP_DEVINFO_DATA);
+
+	for (unsigned int i = 0; SetupDiEnumDeviceInfo(hDevInfo, i, &deviceData); ++i)
+	{
+		wchar_t wszDeviceID[MAX_DEVICE_ID_LEN];
+		if (CM_Get_Device_IDW(deviceData.DevInst, wszDeviceID, MAX_DEVICE_ID_LEN, 0))
+			continue;
+
+		if (!IsMatchingDevice(wszDeviceID, uiVID, uiPID, uiMI))
+			continue;
+
+		SP_INTERFACE_DEVICE_DATA interfaceData = { 0 };
+		interfaceData.cbSize = sizeof(SP_INTERFACE_DEVICE_DATA);
+
+		if (!SetupDiEnumDeviceInterfaces(hDevInfo, &deviceData, &GUID_DEVINTERFACE_HID, 0, &interfaceData))
+			break;
+
+		DWORD dwRequiredSize = 0;
+		SetupDiGetDeviceInterfaceDetail(hDevInfo, &interfaceData, 0, 0, &dwRequiredSize, 0);
+
+		SP_INTERFACE_DEVICE_DETAIL_DATA *pData = (SP_INTERFACE_DEVICE_DETAIL_DATA *)new unsigned char[dwRequiredSize];
+		pData->cbSize = sizeof(SP_INTERFACE_DEVICE_DETAIL_DATA);
+
+		if (!SetupDiGetDeviceInterfaceDetail(hDevInfo, &interfaceData, pData, dwRequiredSize, 0, 0))
+		{
+			delete pData;
+			break;
+		}
+
+		HANDLE hDevice = CreateFile(pData->DevicePath, GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
+		if (hDevice == INVALID_HANDLE_VALUE)
+		{
+			delete pData;
+			break;
+		}
+
+		hReturn = hDevice;
+		break;
+	}
+
+	SetupDiDestroyDeviceInfoList(hDevInfo);
+
+	return hReturn;
+}
+#endif
