@@ -13,12 +13,14 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
+					<Add option="-Bstatic -static-libgcc -static-libstdc++" />
 					<Add directory="C:/libraries/openal-soft-1.14-bin/include" />
 					<Add directory="C:/libraries/SDL-1.2.15/include" />
 					<Add directory="C:/libraries/SDL_gfx-2.0.24/include" />
 					<Add directory="C:/libraries/libusb-win32-bin-1.2.6.0/include" />
 				</Compiler>
 				<Linker>
+					<Add option="-Bstatic -static-libgcc -static-libstdc++" />
 					<Add library="C:\libraries\openal-soft-1.14-bin\lib\Win32\libOpenAL32.dll.a" />
 					<Add library="mingw32" />
 					<Add library="gdi32" />
@@ -29,8 +31,8 @@
 					<Add library="C:\libraries\libusb-win32-bin-1.2.6.0\lib\gcc\libusb.a" />
 					<Add library="user32" />
 					<Add library="dxguid" />
-					<Add library="SDL" />
-					<Add library="SDLmain" />
+					<Add library="C:\MinGW\lib\libhid.a" />
+					<Add library="C:\MinGW\lib\libsetupapi.a" />
 					<Add directory="C:/libraries/SDL-1.2.15/lib" />
 				</Linker>
 			</Target>

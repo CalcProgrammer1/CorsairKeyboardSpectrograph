@@ -25,7 +25,7 @@
 1412990859 source:z:\programming\corsairkeyboardvisualizer\serial_port.cpp
 	"serial_port.h"
 
-1413610409 source:z:\programming\corsairkeyboardvisualizer\corsairkeyboardvisualizer.cpp
+1413672817 source:z:\programming\corsairkeyboardvisualizer\corsairkeyboardvisualizer.cpp
 	<stdio.h>
 	<unistd.h>
 	<usb.h>
@@ -35,6 +35,13 @@
 	<SDL/SDL.h>
 	<SDL/SDL_gfxPrimitives.h>
 	"chuck_fft.h"
+	<sstream>
+	<wchar.h>
+	<string.h>
+	<Windows.h>
+	<hidsdi.h>
+	<setupapi.h>
+	<cfgmgr32.h>
 	"serial_port.h"
 	"fanbus.h"
 
@@ -244,4 +251,30 @@
 1413331537 c:\libraries\sdl_gfx-2.0.24\include\sdl\sdl_gfxprimitives.h
 	<math.h>
 	"SDL/SDL.h"
+
+1345315300 source:z:\programming\razerkeyboardvisualizer\chuck_fft.c
+	"chuck_fft.h"
+	<stdlib.h>
+	<math.h>
+
+1345315311 z:\programming\razerkeyboardvisualizer\chuck_fft.h
+
+1358835704 source:z:\programming\razerkeyboardvisualizer\fanbus.cpp
+	"fanbus.h"
+
+1344729837 z:\programming\razerkeyboardvisualizer\fanbus.h
+	"serial_port.h"
+
+1358836569 z:\programming\razerkeyboardvisualizer\serial_port.h
+	<string.h>
+	<stdio.h>
+	<windows.h>
+	<fcntl.h>
+	<termios.h>
+	<linux/serial.h>
+	<sys/ioctl.h>
+	<unistd.h>
+
+1412990859 source:z:\programming\razerkeyboardvisualizer\serial_port.cpp
+	"serial_port.h"
 

@@ -4,8 +4,6 @@
 #include <math.h>
 #include <AL/al.h>
 #include <AL/alc.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_gfxPrimitives.h>
 #include "chuck_fft.h"
 
 #ifdef WIN32
@@ -18,12 +16,47 @@
 #include <hidsdi.h>
 #include <setupapi.h>
 #include <cfgmgr32.h>
+#include <malloc.h>
+#include <memory.h>
+#include <tchar.h>
 #endif // USE_WINDOWS_USB
 #endif
 
 #define FALSE 0
 
+#define ENABLE_SDL_DISPLAY
+#define ENABLE_CORSAIR_RGB
 //#define ENABLE_FANBUS
+#define ENABLE_RAZER_SDK
+
+#ifdef ENABLE_SDL_DISPLAY
+#include <SDL/SDL.h>
+#include <SDL/SDL_gfxPrimitives.h>
+#endif // ENABLE_SDL_DISPLAY
+
+#ifdef ENABLE_RAZER_SDK
+#include "RzChromaSDKDefines.h"
+#include "RzChromaSDKTypes.h"
+#include "RzErrors.h"
+
+using namespace ChromaSDK::Keyboard;
+using namespace ChromaSDK::Mouse;
+
+typedef RZRESULT (*INIT)(void);
+typedef RZRESULT (*UNINIT)(void);
+typedef RZRESULT (*CREATEKEYBOARDCUSTOMGRIDEFFECTS)(ChromaSDK::Keyboard::CUSTOM_GRID_EFFECT_TYPE CustomEffects, RZEFFECTID *pEffectId);
+typedef RZRESULT (*CREATEMOUSECUSTOMEFFECTS)(ChromaSDK::Mouse::CUSTOM_EFFECT_TYPE CustomEffect, RZEFFECTID *pEffectId);
+typedef RZRESULT (*DELETEEFFECT)(RZEFFECTID EffectId);
+typedef RZRESULT (*SETEFFECT)(RZEFFECTID EffectId);
+
+#ifdef _WIN64
+#define CHROMASDKDLL        _T("RzChromaSDK64.dll")
+#else
+#define CHROMASDKDLL        _T("RzChromaSDK.dll")
+#endif
+
+HMODULE hModule = NULL;                         // Chroma SDK module handle.
+#endif // ENABLE_RAZER_SDK
 
 #ifdef ENABLE_FANBUS
 #include "serial_port.h"
@@ -35,6 +68,8 @@ static int red_leds[] = { 0x10, 0x13, 0x16, 0x19 };
 static int grn_leds[] = { 0x11, 0x14, 0x17, 0x1A };
 static int blu_leds[] = { 0x12, 0x15, 0x18, 0x1B };
 #endif // ENABLE_FANBUS
+
+#ifdef ENABLE_CORSAIR_RGB
 
 #ifdef USE_WINDOWS_USB
 HANDLE				dev;
@@ -58,6 +93,7 @@ static struct usb_device *find_device(uint16_t vendor, uint16_t product);
 char red_val[144];
 char grn_val[144];
 char blu_val[144];
+
 
 char data_pkt[5][64] = { 0 };
 
@@ -84,6 +120,7 @@ float size_map[] = {
 unsigned char led_matrix[7][92];
 
 unsigned char led_waveform[7][92];
+#endif // ENABLE_CORSAIR_RGB
 
 float normalizeFFT(float fftin)
 {
@@ -100,26 +137,29 @@ float normalizeFFT(float fftin)
 int main(int argc, char *argv[])
 {
     float amplitude = 10.0f;
-    unsigned char red, grn, blu;
-    unsigned char buffer[256];
-    float fft[256];
-    unsigned char charfft[256];
-    float win[256];
+    float red, grn, blu;
+    unsigned char buffer[512];
+    float fft[512];
+    unsigned char charfft[512];
+    float win[512];
     float fftavg;
     int level;
+
+#ifdef ENABLE_SDL_DISPLAY
     SDL_Surface* wavs = NULL;
     SDL_Surface* screen = NULL;
     SDL_Event event;
 
     SDL_Init( SDL_INIT_EVERYTHING );
-    screen = SDL_SetVideoMode( 256, 256, 32, SDL_HWSURFACE );
-    wavs = SDL_SetVideoMode( 256, 256, 32, SDL_HWSURFACE );
-    SDL_WM_SetCaption("FanBus Audio Visualizer", NULL);
+    screen = SDL_SetVideoMode( 512, 256, 32, SDL_HWSURFACE );
+    wavs = SDL_SetVideoMode( 512, 256, 32, SDL_HWSURFACE );
+    SDL_WM_SetCaption("Audio Visualizer", NULL);
+#endif // ENABLE_SDL_DISPLAY
 
-    ALCdevice *device = alcCaptureOpenDevice(NULL, 8000, AL_FORMAT_MONO8, 256);
+    ALCdevice *device = alcCaptureOpenDevice(NULL, 16000, AL_FORMAT_MONO8, 256);
     alcCaptureStart(device);
 
-    hanning(win, 256);
+    blackman(win, 512);
 
 #ifdef ENABLE_FANBUS
 #ifdef WIN32
@@ -134,53 +174,72 @@ int main(int argc, char *argv[])
     bus1.fanbus_set_port(&ports[0]);
 #endif
 
+#ifdef ENABLE_CORSAIR_RGB
     init_keyboard();
+#endif // ENABLE_CORSAIR_RGB
+
+#ifdef ENABLE_RAZER_SDK
+    // Dynamically loads the Chroma SDK library.
+    hModule = LoadLibrary(CHROMASDKDLL);
+    if(hModule)
+    {
+        INIT Init = (INIT)GetProcAddress(hModule, "Init");
+        if(Init)
+        {
+            Init();
+        }
+    }
+    CREATEKEYBOARDCUSTOMGRIDEFFECTS CreateKeyboardCustomGridEffects = (CREATEKEYBOARDCUSTOMGRIDEFFECTS)GetProcAddress(hModule, "CreateKeyboardCustomGridEffects");
+    if(CreateKeyboardCustomGridEffects == NULL)
+    {
+        return 0;
+    }
+
+    CUSTOM_GRID_EFFECT_TYPE Grid = {};
+#endif // ENABLE_RAZER_SDK
 
     while(1)
     {
-            for(int j = 0; j < 92; j++)
-            {
-            for(int i = 0; i < 256; i++)
+        for(int j = 0; j < 100; j++)
+        {
+            for(int i = 0; i < 512; i++)
             {
                 buffer[i] = 0;
                 charfft[i] = 0;
                 fft[i] = 0;
             }
 
-            alcCaptureSamples(device, (ALCvoid *)buffer, 256);
+            alcCaptureSamples(device, (ALCvoid *)buffer, 512);
             level = 0;
-            for(int i = 0; i < 256; i++)
+            for(int i = 0; i < 512; i++)
             {
                 level += abs((int)buffer[i]-128);
                 fft[i] = (buffer[i]-128)*amplitude;
             }
 
-            rfft(fft, 256, 1);
-            apply_window(fft, win, 256);
-            boxRGBA(wavs, 0, 0, 255, 255, 0, 0, 0, 255);
+            rfft(fft, 512, 1);
+            apply_window(fft, win, 512);
 
-            for(int i = 0; i < 256; i+=2)
+            for(int i = 0; i < 512; i+=2)
             {
-                float fftmag = sqrt((fft[i]*fft[i])+(fft[i+1]*fft[i+1]));
+                float fftmag = 80*(log10(sqrt((fft[i]*fft[i])+(fft[i+1]*fft[i+1]))));
+                if( fftmag < 0 )
+                {
+                    fftmag = 0;
+                }
                 fftavg += fftmag;
                 charfft[i] = (unsigned char)fftmag;
                 charfft[i+1] = charfft[i];
             }
             fftavg /= 10;
-            for(int i = 0; i < 256; i++)
+
+#ifdef ENABLE_SDL_DISPLAY
+            boxRGBA(wavs, 0, 0, 512, 255, 0, 0, 0, 255);
+            for(int i = 0; i < 512; i++)
             {
-                lineRGBA(wavs, i, 255, i, 255-charfft[i]*4, 0, 255, 0, 255);
+                lineRGBA(wavs, i, 512, i, 255-charfft[i], 0, 255, 0, 255);
                 pixelRGBA(wavs, i, 255- (unsigned char)buffer[i], 255, 0, 0, 255);
             }
-            lineRGBA(wavs, 247, 255, 247, 255-(unsigned char)fftavg, 255, 255, 255, 128);
-            lineRGBA(wavs, 248, 255, 248, 255-(unsigned char)fftavg, 255, 255, 255, 128);
-            lineRGBA(wavs, 249, 255, 249, 255-(unsigned char)fftavg, 255, 255, 255, 128);
-            lineRGBA(wavs, 250, 255, 250, 255-(unsigned char)fftavg, 255, 255, 255, 128);
-
-            lineRGBA(wavs, 251, 255, 251, 255-(unsigned char)level/5, 255, 255, 255, 128);
-            lineRGBA(wavs, 252, 255, 252, 255-(unsigned char)level/5, 255, 255, 255, 128);
-            lineRGBA(wavs, 253, 255, 253, 255-(unsigned char)level/5, 255, 255, 255, 128);
-            lineRGBA(wavs, 254, 255, 254, 255-(unsigned char)level/5, 255, 255, 255, 128);
             SDL_BlitSurface(wavs, NULL, screen, NULL);
             SDL_Flip(screen);
             SDL_PollEvent(&event);
@@ -188,7 +247,7 @@ int main(int argc, char *argv[])
             {
                 return 0;
             }
-            SDL_Delay(15);
+#endif // ENABLE_SDL_DISPLAY
 
 #ifdef ENABLE_FANBUS
             for(int i = 0; i < 4; i++)
@@ -205,34 +264,60 @@ int main(int argc, char *argv[])
             }
 #endif
 
-            for(int x = 0; x < 91; x++)
+            for(int x = 0; x < 100; x++)
             {
                 for(int y = 0; y < 7; y++)
                 {
-                    red = 1.5f * ( sin( ( x / 92.0f ) * 2 * 3.14f ) + 1 );
-                    grn = 1.5f * ( sin( ( ( x / 92.0f ) * 2 * 3.14f ) - ( 6.28f / 3 ) ) + 1 );
-                    blu = 1.5f * ( sin( ( ( x / 92.0f ) * 2 * 3.14f ) + ( 6.28f / 3 ) ) + 1 );
+                    red = ( sin( ( ( ( ( x - j ) % 100 ) / 100.0f ) * 2 * 3.14f )                 ) + 1 );
+                    grn = ( sin( ( ( ( ( x - j ) % 100 ) / 100.0f ) * 2 * 3.14f ) - ( 6.28f / 3 ) ) + 1 );
+                    blu = ( sin( ( ( ( ( x - j ) % 100 ) / 100.0f ) * 2 * 3.14f ) + ( 6.28f / 3 ) ) + 1 );
+#ifdef ENABLE_RAZER_SDK
+                    int razer_x = (x * (22/100.0f));
+                    int razer_j = (j * (22/100.0f));
 
-                    set_led( ( x + j ) % 92, y, red, grn, blu );
-                }
-            }
-            for(int i = 0; i < 91; i++)
-            {
-                for(int k = 0; k < 7; k++)
-                {
-                    if( charfft[(int)(i*2.1+1)] > (255/(15 + (i*0.8))) * (7-k) )
+                    Grid.Key[y][((razer_x ) % 22)] = RGB(16*red, 16*grn, 16*blu);
+
+                    if( charfft[(int)(x * (255.0f/100))] > (255/(y + 1)))
                     {
-                        set_led( i, k, 0x07, 0x07, 0x07);
+                        Grid.Key[y][razer_x] = RGB(255, 255, 255);
                     }
+#endif // ENABLE_RAZER_SDK
+
+#ifdef ENABLE_CORSAIR_RGB
+                    int corsair_x = (x * (92/100.0f));
+                    int corsair_j = (j * (92/100.0f));
+
+                    set_led( ( corsair_x  ) % 92, y, 2*red, 2*grn, 2*blu );
+
+                    if( charfft[(int)(x * (255.0f/100))] > (255/(y + 1)))
+                    {
+                        set_led( corsair_x, y, 0x07, 0x07, 0x07);
+                    }
+#endif // ENABLE_CORSAIR_RGB
                 }
             }
+
+#ifdef ENABLE_RAZER_SDK
+            CreateKeyboardCustomGridEffects(Grid, NULL);
+#endif // ENABLE_RAZER_SDK
+
+#ifdef ENABLE_CORSAIR_RGB
             update_keyboard();
+#endif // ENABLE_CORSAIR_RGB
+
+#ifdef ENABLE_SDL_DISPLAY
+            SDL_Delay(25);
+#elif defined( WIN32 )
+            Sleep(25);
+#else
+            usleep(250000);
+#endif
         }
     }
     return 0;
 }
 
-
+#ifdef ENABLE_CORSAIR_RGB
 static void set_led( int x, int y, int r, int g, int b )
 {
     int led = led_matrix[y][x];
@@ -570,3 +655,4 @@ HANDLE GetDeviceHandle(unsigned int uiVID, unsigned int uiPID, unsigned int uiMI
 	return hReturn;
 }
 #endif
+#endif // ENABLE_CORSAIR_RGB
