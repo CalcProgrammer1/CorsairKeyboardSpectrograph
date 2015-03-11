@@ -1,7 +1,7 @@
 CorsairKeyboardSpectrograph
 ===========================
 
-Spectrograph audio visualizer for Corsair K70 RGB keyboard for Windows and Linux
+Spectrograph audio visualizer for Corsair K70 RGB keyboard for Windows and Linux.  Now also supports the Razer BlackWidow Chroma in Windows via the official SDK.
 
 
 See these Reddit threads for more information about Corsair K70 USB protocol decoding:
